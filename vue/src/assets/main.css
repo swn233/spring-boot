@@ -1,0 +1,26 @@
+@import './base.css';
+
+*{
+  margin: 0;
+  border: 0;
+  box-sizing: border-box;
+}
+#app { 
+  margin: 0 auto;
+  
+  height: 100%;
+  width: 100%;
+  font-weight: normal;
+  min-height: 100vh;
+}
+
+html,body,div{
+  margin:0;
+  padding:0;
+}
+
+html,body{
+height: 100%;
+width: 100%;
+}
+
