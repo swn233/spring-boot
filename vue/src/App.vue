@@ -129,10 +129,13 @@
         <el-scrollbar>
           <el-table :data="tableData" stripe border height="900" style="width: 100%;" table-layout="auto"
             :header-cell-style="HeaderStyle">
-            <el-table-column prop="date" label="Date" />
-            <el-table-column prop="name" label="Name" />
-            <el-table-column prop="address" label="Address" />
-            <el-table-column label="Operations">
+            <el-table-column prop="id" label="ID" />
+            <el-table-column prop="username" label="用户名" />
+            <el-table-column prop="nickname" label="昵称" />
+            <el-table-column prop="email" label="邮箱" />
+            <el-table-column prop="phone" label="电话" />
+            <el-table-column prop="address" label="地址" />
+            <el-table-column label="操作">
               <template #default="scope">
                 <el-button size="small" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -145,9 +148,9 @@
       <!--分页-->
       <div class="demo-pagination-block">
         <div class="demonstration"></div>
-        <el-pagination style="padding: 10px;" v-model:current-page="currentPage3" v-model:page-size="pageSize3"
+        <el-pagination style="padding: 10px;" v-model:current-page="pageNum" v-model:page-size="pageSize"
           :page-sizes="[5, 10, 15, 20]" :small="small" :disabled="disabled" :background="background"
-          layout="sizes,prev, pager, next, jumper" :total="1000" @size-change="handleSizeChange"
+          layout="total,sizes,prev, pager, next, jumper" :total="total" @size-change="handleSizeChange"
           @current-change="handleCurrentChange" />
       </div>
 
@@ -160,8 +163,10 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Menu as IconMenu, Message, Setting, Document, Location, Fold, Search } from '@element-plus/icons-vue'
+const pageNum=ref(2)
+const pageSize=ref(10)
 //实现分页功能
-
+const total=ref(1000)
 const currentPage3 = ref(5)
 const pageSize3 = ref(10)
 const small = ref(false)
@@ -170,9 +175,13 @@ const disabled = ref(false)
 
 const handleSizeChange = (val: number) => {
   console.log(`${val} items per page`)
+  pageSize.value=val
+  load()
 }
 const handleCurrentChange = (val: number) => {
   console.log(`current page: ${val}`)
+  pageNum.value=val
+  load()
 }
 
 function HeaderStyle(){
@@ -226,6 +235,21 @@ const tableData = ref(Array.from({ length: 30 }, (_, index) => ({
   name: item.name + generateRandomString(), // 在名字后面附加一个随机字符串
   date: '2023-08-' + (index + 1).toString().padStart(2, '0'), // 将日期的日增加
 })));
+
+
+//请求分页查询数据
+import { onMounted } from 'vue'
+
+function load() {
+  fetch("http://localhost:8080/user/page?pageNum="+pageNum.value.toString()+"&pageSize="+pageSize.value.toString())
+      .then(res => res.json())
+      .then(res => {
+        console.log(res);
+        tableData.value=res.data;
+        total.value=res.total;
+      });
+}
+onMounted(load);
 </script>
 
 <style scoped>

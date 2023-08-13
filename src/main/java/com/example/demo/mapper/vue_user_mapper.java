@@ -21,4 +21,10 @@ public interface vue_user_mapper {
 
     @Delete("DELETE  FROM  vue_user WHERE  id =#{id}")
     Integer deleteById(@Param("id") Integer id);
+
+    @Select("SELECT * FROM  vue_user LIMIT #{pageNum},#{pageSize}")
+    List<vue_user> selectPage(Integer pageNum, Integer pageSize);
+
+    @Select("SELECT COUNT(*) FROM vue_user")
+    Integer selectTotal();
 }

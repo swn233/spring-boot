@@ -8,7 +8,9 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/user")
@@ -39,9 +41,15 @@ public class Demo1Application {
         return userMapper.deleteById(id);
     }
 
+
     @GetMapping("/page")
-    public List<vue_user> findPage(@RequestParam  Integer pageNum,@RequestParam Integer pageSize){
-        List<vue_user> vue_user = null;
-        return vue_user;
+    public Map<String,Object> findPage(@RequestParam  Integer pageNum,@RequestParam Integer pageSize){
+        pageNum=(pageNum-1)*pageSize;
+        List<vue_user> data = userMapper.selectPage(pageNum, pageSize);
+       Integer total= userMapper.selectTotal();
+        Map<String,Object>res =new HashMap<>();
+        res.put("data",data);
+        res.put("total",total);
+        return res;
     }
 }
