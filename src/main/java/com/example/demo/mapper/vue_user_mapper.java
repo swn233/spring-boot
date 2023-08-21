@@ -1,11 +1,12 @@
 package com.example.demo.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.example.demo.entity.vue_user;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
-@Mapper
-public interface vue_user_mapper {
+//@Mapper
+public interface vue_user_mapper extends BaseMapper<vue_user> {
     @Select("SELECT * FROM vue_user")
     List<vue_user> findAll();
 
@@ -13,7 +14,7 @@ public interface vue_user_mapper {
 
     @Insert("INSERT INTO vue_user(username,password,nickname,email,phone,address) VALUES(#{username},#{password},"+
             "#{nickname},#{email},#{phone},#{address});")
-    Integer insert(vue_user user);
+    int insert(vue_user user);
 
     //@Update("update vue_user set username=#{username},password=#{password},nickname=#{nickname},email=#{email},"+
     //      "phone=#{phone},address=#{address} where id =#{id}")
@@ -22,9 +23,9 @@ public interface vue_user_mapper {
     @Delete("DELETE  FROM  vue_user WHERE  id =#{id}")
     Integer deleteById(@Param("id") Integer id);
 
-    @Select("SELECT * FROM  vue_user LIMIT #{pageNum},#{pageSize}")
-    List<vue_user> selectPage(Integer pageNum, Integer pageSize);
+    @Select("SELECT * FROM  vue_user WHERE username like concat('%',#{username},'%') LIMIT #{pageNum},#{pageSize}")
+    List<vue_user> selectPage(Integer pageNum, Integer pageSize, String username);
 
-    @Select("SELECT COUNT(*) FROM vue_user")
-    Integer selectTotal();
+    @Select("SELECT COUNT(*) FROM vue_user WHERE username like concat('%',#{username},'%')")
+    Integer selectTotal(String username);
 }

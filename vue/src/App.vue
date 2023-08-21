@@ -101,8 +101,9 @@
 
       <!--搜索框-->
       <div style="margin-left: 50px;padding: 10px 0;">
-        <el-input style="width: 200px;" placeholder="Search" :suffix-icon="Search"></el-input><el-button
-          style="margin-left: 50px; " type="primary">搜索</el-button>
+        <el-input v-model="username" style="width: 200px;" placeholder="Search" :suffix-icon="Search" ></el-input>
+        <el-button
+          style="margin-left: 50px; " type="primary" @click="load">搜索</el-button>
       </div>
       <!--新增-->
       <div style="margin-left: 50px; margin: 10px 0;">
@@ -112,7 +113,7 @@
         <el-button style="margin-left: 50px; " type="primary" icon="Document">导出</el-button>
       </div>
 
-      <el-main style="margin-left: 25px;margin-right: 25px;">
+      <el-main style="margin-left: 25px;margin-right: 25px;overflow: hidden">
         <!--页签 无法显示，未解决-->
         <div style="margin-bottom: 30px;">
           <template>
@@ -126,8 +127,8 @@
         </div>
 
 
-        <el-scrollbar>
-          <el-table :data="tableData" stripe border height="900" style="width: 100%;" table-layout="auto"
+        <el-scrollbar style="overflow: hidden">
+          <el-table :data="tableData" stripe border height="800" style="width: 100%; " table-layout="auto"
             :header-cell-style="HeaderStyle">
             <el-table-column prop="id" label="ID" />
             <el-table-column prop="username" label="用户名" />
@@ -137,13 +138,13 @@
             <el-table-column prop="address" label="地址" />
             <el-table-column label="操作">
               <template #default="scope">
-                <el-button size="small" type="success" @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
+                <el-button size="small" type="success" @clicyk="handleEdit(scope.$index, scope.row)">编辑</el-button>
                 <el-button size="small" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
               </template>
             </el-table-column>
           </el-table>
         </el-scrollbar>
-      </el-main>
+      </el-main>>
 
       <!--分页-->
       <div class="demo-pagination-block">
@@ -163,6 +164,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Menu as IconMenu, Message, Setting, Document, Location, Fold, Search } from '@element-plus/icons-vue'
+const username=ref("")
 const pageNum=ref(2)
 const pageSize=ref(10)
 //实现分页功能
@@ -241,7 +243,7 @@ const tableData = ref(Array.from({ length: 30 }, (_, index) => ({
 import { onMounted } from 'vue'
 
 function load() {
-  fetch("http://localhost:8080/user/page?pageNum="+pageNum.value.toString()+"&pageSize="+pageSize.value.toString())
+  fetch("http://localhost:8080/user/page?pageNum="+pageNum.value.toString()+"&pageSize="+pageSize.value.toString()+"&username="+username.value.toString())
       .then(res => res.json())
       .then(res => {
         console.log(res);

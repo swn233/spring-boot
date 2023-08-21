@@ -1,4 +1,5 @@
 package com.example.demo.entity;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import  lombok.Data;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@TableName("vue_user")
 public class vue_user {
 private Integer id;
 private String username;

@@ -25,9 +25,9 @@ public class Demo1Application {
     }
 
     @PostMapping
-    public Integer save(@RequestBody vue_user user){
+    public boolean save(@RequestBody vue_user user){
      //新增或者更新
-        return userService.save(user);
+        return userService.saveUser(user);
     }
     //查询所有结果
     @GetMapping("/")
@@ -43,10 +43,10 @@ public class Demo1Application {
 
 
     @GetMapping("/page")
-    public Map<String,Object> findPage(@RequestParam  Integer pageNum,@RequestParam Integer pageSize){
+    public Map<String,Object> findPage(@RequestParam  Integer pageNum,@RequestParam Integer pageSize,@RequestParam String username){
         pageNum=(pageNum-1)*pageSize;
-        List<vue_user> data = userMapper.selectPage(pageNum, pageSize);
-       Integer total= userMapper.selectTotal();
+        List<vue_user> data = userMapper.selectPage(pageNum, pageSize,username);
+       Integer total= userMapper.selectTotal(username);
         Map<String,Object>res =new HashMap<>();
         res.put("data",data);
         res.put("total",total);
