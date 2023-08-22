@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.mapper.vue_user_mapper">
-<update id="update">
+<update id="updateById"  ><!--此处的update id为mapper中的update方法名称-->
     update vue_user
     <set>
         <if test="username!=null">
@@ -25,10 +25,8 @@
             address=#{address}
         </if>
     </set>
-
     <where>
     id =#{id}
     </where>
-
 </update>
 </mapper>

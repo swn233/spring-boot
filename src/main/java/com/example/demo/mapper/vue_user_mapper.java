@@ -10,15 +10,13 @@ public interface vue_user_mapper extends BaseMapper<vue_user> {
     @Select("SELECT * FROM vue_user")
     List<vue_user> findAll();
 
-
-
     @Insert("INSERT INTO vue_user(username,password,nickname,email,phone,address) VALUES(#{username},#{password},"+
             "#{nickname},#{email},#{phone},#{address});")
     int insert(vue_user user);
 
-    //@Update("update vue_user set username=#{username},password=#{password},nickname=#{nickname},email=#{email},"+
-    //      "phone=#{phone},address=#{address} where id =#{id}")
-    int update(vue_user user);
+//    @Update("update vue_user set username=#{username},password=#{password},nickname=#{nickname},email=#{email},"+
+//          "phone=#{phone},address=#{address} where id =#{id}")
+    int updateById(vue_user user);
 
     @Delete("DELETE  FROM  vue_user WHERE  id =#{id}")
     Integer deleteById(@Param("id") Integer id);

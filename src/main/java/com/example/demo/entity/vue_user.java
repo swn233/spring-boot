@@ -1,4 +1,5 @@
 package com.example.demo.entity;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
@@ -10,8 +11,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @TableName("vue_user")
 public class vue_user {
+    @TableId(value="id")
 private Integer id;
-private String username;
+
+    private String username;
 @JsonIgnore//忽略密码字段，不展示给前端
 private String password;
 private String nickname;

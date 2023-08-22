@@ -20,7 +20,9 @@ public class UserService  extends ServiceImpl<vue_user_mapper,vue_user>{
         else {
             return updateById(user);
         }
-// 报错error: can not execute. because can not find cache of TableInfo for entity! 此处使用这个函数有问题     return saveOrUpdate(user);
+// 报错error: can not execute. because can not find cache of TableInfo for entity! 此处使用这个函数有问题
+//         return saveOrUpdate(user);
+
     }
 
 
