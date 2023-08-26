@@ -29,6 +29,8 @@ public class UserControllor {
     public List<vue_user> index(){
         new vue_user();
         return userMapper.findAll();
+        //mybatis plus 方法
+        //return userService.list();测试接口失败，错误码500
     }
 
     @DeleteMapping("/{id}")
@@ -36,7 +38,7 @@ public class UserControllor {
         return userMapper.deleteById(id);
     }
 
-
+    //分页查询
     @GetMapping("/page")
     public Map<String,Object> findPage(@RequestParam  Integer pageNum, @RequestParam Integer pageSize, @RequestParam String username){
         pageNum=(pageNum-1)*pageSize;

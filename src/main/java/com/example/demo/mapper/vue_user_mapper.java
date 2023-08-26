@@ -24,6 +24,6 @@ public interface vue_user_mapper extends BaseMapper<vue_user> {
     @Select("SELECT * FROM  vue_user WHERE username like concat('%',#{username},'%') LIMIT #{pageNum},#{pageSize}")
     List<vue_user> selectPage(Integer pageNum, Integer pageSize, String username);
 
-    @Select("SELECT COUNT(*) FROM vue_user WHERE username like concat('%',#{username},'%')")
+    @Select("SELECT COUNT(*) FROM vue_user WHERE username like concat('%',#{username},'%')  ")
     Integer selectTotal(String username);
 }
