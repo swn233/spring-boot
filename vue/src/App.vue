@@ -117,7 +117,7 @@
       <div style="margin-left: 50px; margin: 10px 0;">
         <el-button style="margin-left: 50px; " type="primary" icon="CirclePlusFilled" @click="HandleAdd">新增
         </el-button>
-        <el-button style="margin-left: 50px; " type="danger" icon="MoreFilled">批量刪除</el-button>
+        <el-button style="margin-left: 50px; " type="danger" icon="MoreFilled" @click="delBatch">批量刪除</el-button>
         <el-button style="margin-left: 50px; " type="primary" icon="DocumentAdd">导入</el-button>
         <el-button style="margin-left: 50px; " type="primary" icon="Document">导出</el-button>
       </div>
@@ -137,8 +137,8 @@
 
 
         <el-scrollbar style="overflow: hidden">
-          <el-table :data="tableData" stripe border height="800" style="width: 100%; " table-layout="auto"
-                    :header-cell-style="HeaderStyle">
+          <el-table :data="tableData"  stripe border height="800" style="width: 100%; " table-layout="auto"
+                    :header-cell-style="HeaderStyle"  @selection-change="handleSelectionChange">
             <el-table-column type="selection" width="55" />
             <el-table-column prop="id" label="ID"/>
             <el-table-column prop="username" label="用户名"/>
@@ -294,6 +294,47 @@ const tableData = ref(Array.from({length: 30}, (_, index) => ({
   date: '2023-08-' + (index + 1).toString().padStart(2, '0'), // 将日期的日增加
 })));
 
+const multipleSelection = ref([])
+
+//批量删除
+function handleSelectionChange(val){
+  console.log(val)
+  multipleSelection.value=val
+}
+function  delBatch(){
+  let ids =multipleSelection.value.map(v=>v.id)
+  //删除确认
+  ElMessageBox.confirm(
+      'data will permanently delete the file. Continue?',
+      'Warning',
+      {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        fetch('http://localhost:8080/user/del/batch',{
+          method: 'post',
+          body: JSON.stringify(ids),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+        load()
+        ElMessage({
+          type: 'success',
+          message: 'Delete completed',
+        })
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: 'Delete canceled',
+        })
+      })
+
+}
 
 function handleEdit(index,row){
   form.value=row
@@ -302,6 +343,7 @@ function handleEdit(index,row){
     message: '编辑成功',
     type: 'success',
   })
+  load()
 }
 
 function handleDelete(index,row){
@@ -414,6 +456,7 @@ function load() {
   })
       .then((res) => {
         console.log(res);
+        console.log('页面重置')
         tableData.value = res.data.data;
         total.value = res.data.total;
       });

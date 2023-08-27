@@ -26,4 +26,15 @@ public interface vue_user_mapper extends BaseMapper<vue_user> {
 
     @Select("SELECT COUNT(*) FROM vue_user WHERE username like concat('%',#{username},'%')  ")
     Integer selectTotal(String username);
+
+    @Delete({
+            "<script>",
+            "DELETE FROM vue_user WHERE id IN",
+            "<foreach item='id' collection='ids' open='(' separator=',' close=')'>",
+            "#{id}",
+            "</foreach>",
+            "</script>"
+    })
+    boolean removeByIds(List<Integer> ids);
+
 }

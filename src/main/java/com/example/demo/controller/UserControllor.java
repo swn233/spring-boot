@@ -33,9 +33,15 @@ public class UserControllor {
         //return userService.list();测试接口失败，错误码500
     }
 
+    //删除
     @DeleteMapping("/{id}")
     public Integer delete(@PathVariable Integer id){
         return userMapper.deleteById(id);
+    }
+    //批量删除
+    @PostMapping("/del/batch")
+    public boolean deleteBatch(@RequestBody List<Integer> ids){
+        return userMapper.removeByIds(ids);
     }
 
     //分页查询
